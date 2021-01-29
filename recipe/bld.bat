@@ -12,6 +12,7 @@ cmake -G "NMake Makefiles" ^
       -DBUILD_SHARED_LIBS:BOOL=ON ^
       -DBUILD_STATIC_LIBS:BOOL=ON ^
       -DCMAKE_INSTALL_PREFIX:PATH="%LIBRARY_PREFIX%" ^
+      -DENABLE_BINARY_COMPATIBLE_POSIX_API=YES ^
       "%SRC_DIR%"
 if errorlevel 1 exit 1
 
