@@ -11,6 +11,7 @@ source:
 
 build:
   number: 0
+  #trigger 1
   run_exports:
     # https://abi-laboratory.pro/index.php?view=timeline&l=oniguruma 
     - {{ pin_subpackage('oniguruma', max_pin='x.x') }}
