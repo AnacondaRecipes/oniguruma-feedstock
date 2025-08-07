@@ -39,9 +39,8 @@ echo [Oniguruma API, backward search check]
 build\test\test_back.exe | findstr RESULT
 if errorlevel 1 exit 1
 
-@REM echo [Oniguruma API, EUC-JP check]
-@REM build\test\testc.exe | findstr RESULT
-@REM if errorlevel 1 exit 1
+echo [Oniguruma API, EUC-JP check]
+build\test\testc.exe
 
 echo All tests passed successfully.
 exit 0
