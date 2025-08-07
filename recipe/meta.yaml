@@ -14,15 +14,12 @@ build:
   run_exports:
     - {{ pin_subpackage('oniguruma', max_pin='x.x') }}
 
-
 requirements:
   build:
-    # - gnuconfig  # [unix]
+    - {{ stdlib('c') }}
     - {{ compiler("c") }}
     - cmake
     - make  # [not win]
-  host:
-    - msinttypes  # [win]
 
 test:
   commands:

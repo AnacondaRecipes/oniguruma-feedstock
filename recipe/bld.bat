@@ -1,23 +1,48 @@
-set "CMAKE_CONFIG=Release"
-if errorlevel 1 exit 1
-
-mkdir build_%CMAKE_CONFIG%
-if errorlevel 1 exit 1
-
-pushd build_%CMAKE_CONFIG%
-if errorlevel 1 exit 1
-
-cmake -G "NMake Makefiles" ^
-      -DCMAKE_BUILD_TYPE:STRING=%CMAKE_CONFIG% ^
-      -DBUILD_SHARED_LIBS:BOOL=ON ^
-      -DBUILD_STATIC_LIBS:BOOL=ON ^
-      -DCMAKE_INSTALL_PREFIX:PATH="%LIBRARY_PREFIX%" ^
+cmake -B build ${CMAKE_ARGS} -G "NMake Makefiles" ^
+      -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
+      -DCMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%" ^
+      -DCMAKE_INSTALL_LIBDIR=lib ^
+      -DCMAKE_BUILD_TYPE=Release ^
+      -DBUILD_SHARED_LIBS=ON ^
       -DENABLE_BINARY_COMPATIBLE_POSIX_API=YES ^
-      "%SRC_DIR%"
+      -DBUILD_TEST=ON ^
+      -DCMAKE_POSITION_INDEPENDENT_CODE=ON ^
+      .
 if errorlevel 1 exit 1
 
-cmake --build . --target install --config %CMAKE_CONFIG%
+cmake --build build --target install --config %CMAKE_CONFIG%
 if errorlevel 1 exit 1
 
-popd
+@REM No script for test running for windows in the upstream.
+@echo off
+echo [Oniguruma API, UTF-8 check]
+build\test\test_utf8.exe | findstr RESULT
 if errorlevel 1 exit 1
+
+echo [Oniguruma API, SYNTAX check]
+build\test\test_syntax.exe | findstr RESULT
+if errorlevel 1 exit 1
+
+echo [Oniguruma API, Options check]
+build\test\test_options.exe | findstr RESULT
+if errorlevel 1 exit 1
+
+echo [Oniguruma API, EUC-JP check]
+build\test\testc.exe | findstr RESULT
+if errorlevel 1 exit 1
+
+echo [Oniguruma API, UTF-16 check]
+build\test\testcu.exe | findstr RESULT
+if errorlevel 1 exit 1
+
+echo.
+echo [Oniguruma API, regset check]
+build\test\test_regset.exe
+if errorlevel 1 exit 1
+
+echo [Oniguruma API, backward search check]
+build\test\test_back.exe | findstr RESULT
+if errorlevel 1 exit 1
+
+echo All tests passed successfully.
+exit 0
