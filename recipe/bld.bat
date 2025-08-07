@@ -41,6 +41,7 @@ if errorlevel 1 exit 1
 
 echo [Oniguruma API, EUC-JP check]
 build\test\testc.exe
+if not "%ERRORLEVEL%"=="0" exit 1
 
 echo All tests passed successfully.
 exit 0
