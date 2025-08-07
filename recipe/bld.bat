@@ -32,7 +32,7 @@ build\test\testcu.exe | findstr RESULT
 if errorlevel 1 exit 1
 
 echo [Oniguruma API, regset check]
-build\test\test_regset.exe
+build\test\test_regset.exe | findstr RESULT
 if errorlevel 1 exit 1
 
 echo [Oniguruma API, backward search check]
