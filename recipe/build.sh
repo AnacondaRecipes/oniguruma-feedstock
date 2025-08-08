@@ -1,13 +1,21 @@
 #!/bin/bash
-# Get an updated config.sub and config.guess
-cp $BUILD_PREFIX/share/gnuconfig/config.* .
 
-chmod +x configure
+set -ex
 
-./configure --disable-maintainer-mode --enable-binary-compatible-posix-api=yes --prefix=$PREFIX
+cmake -B build ${CMAKE_ARGS} -G "Unix Makefiles" \
+  -DCMAKE_PREFIX_PATH=$PREFIX \
+  -DCMAKE_INSTALL_PREFIX="${PREFIX}" \
+  -DCMAKE_INSTALL_LIBDIR=lib \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_SHARED_LIBS=ON \
+  -DBUILD_TEST=ON \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+  -DENABLE_POSIX_API=ON \
+  -DENABLE_BINARY_COMPATIBLE_POSIX_API=ON \
+  -DINSTALL_DOCUMENTATION=OFF \
+  .
 
-make -j${CPU_COUNT}
-if [[ "${CONDA_BUILD_CROSS_COMPILATION}" != "1" ]]; then
-make check
-fi
-make install
+cmake --build build --config Release --target install
+
+cp $SRC_DIR/test/test.sh build/test
+cd build/test && ./test.sh 
