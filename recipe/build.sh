@@ -12,6 +12,7 @@ cmake -B build ${CMAKE_ARGS} -G "Unix Makefiles" \
   -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
   -DENABLE_POSIX_API=ON \
   -DENABLE_BINARY_COMPATIBLE_POSIX_API=ON \
+  -DINSTALL_DOCUMENTATION=OFF \
   .
 
 cmake --build build --config Release --target install
