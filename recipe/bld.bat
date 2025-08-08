@@ -7,6 +7,7 @@ cmake -B build ${CMAKE_ARGS} -G "NMake Makefiles" ^
       -DENABLE_BINARY_COMPATIBLE_POSIX_API=ON ^
       -DBUILD_TEST=ON ^
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON ^
+      -DINSTALL_DOCUMENTATION=OFF ^
       .
 if errorlevel 1 exit 1
 
